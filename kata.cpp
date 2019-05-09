@@ -5,7 +5,9 @@ class Rover
 public:
     enum Direction {
         North,
-        East
+        East,
+        South,
+        West
     };
 
     Rover(uint maxrow, uint maxcol) : m_maxCol(maxcol), m_maxRow(maxrow)
@@ -36,6 +38,17 @@ public:
 
     void setDirection(Direction dir) {
         m_dir = dir;
+    }
+
+    void turnLeft() {
+      switch (m_dir) {
+        case Direction::North:
+          m_dir = Direction::West;
+          break;
+        case Direction::West:
+          m_dir = Direction::South;
+          break;
+      }
     }
 
 private:
@@ -106,4 +119,35 @@ TEST(RoverTests, setDirection)
   Rover rov(5,5);
   rov.setDirection(Rover::Direction::East);
   CHECK_EQUAL(Rover::Direction::East, rov.getDirection());
+}
+
+TEST(RoverTests, setAllDirections)
+{
+  Rover rov(5,5);
+  rov.setDirection(Rover::Direction::South);
+  CHECK_EQUAL(Rover::Direction::South, rov.getDirection());
+
+  rov.setDirection(Rover::Direction::North);
+  CHECK_EQUAL(Rover::Direction::North, rov.getDirection());
+
+  rov.setDirection(Rover::Direction::West);
+  CHECK_EQUAL(Rover::Direction::West, rov.getDirection());
+
+  rov.setDirection(Rover::Direction::East);
+  CHECK_EQUAL(Rover::Direction::East, rov.getDirection());
+}
+
+TEST(RoverTests, turnLeftInitially)
+{
+  Rover rov(5,5);
+  rov.turnLeft();
+  CHECK_EQUAL(Rover::Direction::West, rov.getDirection());
+}
+
+TEST(RoverTests, turnLeftFromWest)
+{
+  Rover rov(5,5);
+  rov.setDirection(Rover::Direction::West);
+  rov.turnLeft();
+  CHECK_EQUAL(Rover::Direction::South, rov.getDirection());
 }
