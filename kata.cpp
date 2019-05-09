@@ -1,23 +1,31 @@
 #include <CppUTest/TestHarness.h>
 
-int doSomething(std::string input) {
-    return 0;
-}
+class Rover
+{
+    int m_maxCol;
+    int m_maxRow;
+public:
+    Rover(int maxrow, int maxcol) : m_maxCol(maxcol), m_maxRow(maxrow)
+    {}
 
-TEST_GROUP(sampleGroup) {
+    bool setPosition(int x, int y)
+    {
+        return true;
+    }
+};
+
+TEST_GROUP(RoverTests) {
     void setup() {
     }
     void teardown() {
     }
 };
 
-TEST(sampleGroup, it_should_just_work)
+TEST(RoverTests, setPositionInsideBoundaries)
 {
-    CHECK_EQUAL(0, doSomething(""))
+    Rover rov(5, 5);
+    CHECK_EQUAL(true, rov.setPosition(0, 0));
+
 }
 
-TEST(sampleGroup, fixMe)
-{
-    CHECK_EQUAL(5, doSomething("Hello"))
-}
 
